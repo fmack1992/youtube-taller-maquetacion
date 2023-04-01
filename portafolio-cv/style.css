@@ -1,0 +1,741 @@
+/********** Custom Properties ********/
+:root {
+ --first-color: #d90062;
+ --first-alpha-color: rgba(217, 0, 98, 0.75);
+ --second-color: #14192d;
+ --second-alpha-color: rgba(20, 25, 45, 0.75);
+ --third-color: #501464;
+ ---third-alpha-color: rgba(80, 20, 100, 0.75);
+ --white-color: #fff;
+ --gray-light-color: #f3f3f3;
+ --gray-color: #ccc;
+ --gray-dark-color: #666;
+ --black-color: #000;
+ --link-color: #509ee3;
+ --title-color: #333;
+ --text-color: #222;
+ --white-alpha-color: rgba(255, 255, 255, 0.5);
+ --black-alpha-color: rgba(0, 0, 0, 0.5);
+ --font: "Raleway", sans-serif;
+ --max-width: 1200px;
+ --header-height: 4rem;
+}
+
+/********** Reset ********/
+html {
+ box-sizing: border-box;
+ font-family: var(--font);
+ font-size: 16px;
+ scroll-behavior: smooth; /*Hace una pequeña transición al pasar a otra pestaña*/
+}
+
+*,
+*::after,
+*::before {
+ box-sizing: inherit;
+}
+
+body {
+ margin: 0;
+ overflow-x: hidden;
+ color: var(--text-color);
+ font-family: var(--font);
+}
+
+a {
+ color: var(--link-color);
+ transition: all 0.5s ease-out;
+}
+
+a:hover {
+ opacity: 0.75;
+}
+
+h1 {
+ margin: 0;
+ font-size: 2rem;
+}
+
+h2 {
+ margin: 0;
+ font-size: 1.5rem;
+}
+
+h3 {
+ margin: 0;
+ font-size: 1.25rem;
+}
+
+h4 {
+ margin: 0;
+ font-size: 1rem;
+}
+
+h5 {
+ margin: 0;
+ font-size: 0.85rem;
+}
+
+h6 {
+ margin: 0;
+ font-size: 0.7rem;
+}
+
+img {
+ max-width: 100%;
+ height: auto;
+}
+
+p {
+ line-height: 1.6;
+}
+
+/********** Components ********/
+/******** Carousel ******/
+@keyframes carousel-slide { /* animacion de carousel. luego de crearla la llamo desde carousel-slides*/
+ 0% {
+  transform: translateX(0%);
+ }
+
+ 25% {
+  transform: translateX(-25%);
+ }
+
+ 50% {
+  transform: translateX(-50%);
+ }
+
+ 75% {
+  transform: translateX(-75%);
+ }
+}
+
+
+.carousel {
+ margin: 2rem auto;
+ padding: 2rem 0;
+ max-width: 800px;
+ text-align: center;
+ overflow-x: hidden;
+ background-color: var(--carousel-bg-color);
+}
+
+.carousel .slides {
+ padding-left: 0;
+ /* Sumar 100% por cada slide que tenga el carousel*/
+ width: 400%;
+ display: flex; /* Pasamos elementos a fila */
+ list-style: none;
+ transition: transform .5s ease-in-out;
+ animation: carousel-slide 12s ease-in-out 3s;
+}
+
+.carousel input {
+ display: none;
+}
+
+.carousel label {
+ border: medium solid var(--gray-dark-color);
+ border-radius: 50%; /* Convierto cuadraditos del final en circulos*/
+ margin: 0 .25rem;
+ display: inline-block;
+ width: .75rem;
+ height: .75rem;
+ cursor: pointer;
+}
+
+#slide-1:checked ~ .slides { /* Cuando slide esté checked mover al hermano slides*/
+ transform: translateX(0%); /* El % deberia dividirse entre el nro de slides, iria 0, luego 25, 50, etc.*/
+}
+
+#slide-2:checked ~ .slides { /* Cuando slide esté checked mover al hermano slides*/
+ transform: translateX(-25%); /* En negativo porque quiero movar al lado contrario*/
+}
+
+#slide-3:checked ~ .slides { /* Cuando slide esté checked mover al hermano slides*/
+ transform: translateX(-50%); /* En negativo porque quiero movar al lado contrario*/
+}
+
+#slide-4:checked ~ .slides { /* Cuando slide esté checked mover al hermano slides*/
+ transform: translateX(-75%); /* En negativo porque quiero movar al lado contrario*/
+}
+
+#slide-1:checked ~ .slides-nav label#dot-1,
+#slide-2:checked ~ .slides-nav label#dot-2,
+#slide-3:checked ~ .slides-nav label#dot-3,
+#slide-4:checked ~ .slides-nav label#dot-4  {
+ background-color: var(--gray-dark-color);
+}
+
+
+/******** Contact Form ******/
+.contact-form {
+ margin: 2rem auto;
+ padding: 1rem;
+ max-width: 800px;
+}
+
+.contact-form > *{ /* Aplico a todos los hijos*/
+ padding: 1.5rem;
+ margin: 1rem auto;
+ display: block;
+ width: 100%;
+}
+
+.contact-form input,
+.contact-form textarea {
+ font-size: .85rem;
+ font-family: var(--font);
+}
+
+.contact-form input {
+ border: 0;
+ padding-left: 0; /* Pega texto al inicio, al borde*/
+ border-bottom: thin solid var(--gray-dark-color);
+}
+
+.contact-form textarea {
+ border: thin solid var(--gray-dark-color);
+ resize: none; /* Es para que no se pueda cambiar el tamaño del textarea*/
+}
+
+.contact-form input[type="submit"] {
+ margin-top: 0;
+ cursor: pointer;
+ transition: all .5s ease-out;
+}
+
+.contact-form input[type="submit"]:hover {
+ opacity: .75%;
+}
+
+.contact-form *::placeholder {
+ color: var(--gray-dark-color);
+}
+
+.contact-form-response {
+ padding: 1rem;
+ width: 400px;
+ text-align: center;
+ background-color: var(--white-color);
+}
+
+.contact-form-response svg {
+ margin-top: 2rem;
+ width: 4rem;
+ height: 4rem;
+ fill: var(--first-color);
+}
+
+.modal#gracias:target {
+ opacity: 1;
+ pointer-events: auto;
+}
+
+@media screen and (min-width: 1024px) {
+ .contact-form {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  column-gap: 1rem;
+ }
+
+.contact-form input,
+.contact-form textarea {
+ font-size: 1rem;
+ }
+
+ .contact-form textarea, 
+  .contact-form-loader {
+  grid-column: span 2;
+ }
+
+ .contact-form input[type="submit"] {
+  margin-left: 0;
+ }
+}
+
+/******** Hero Image ******/
+.hero-image {
+ background-image: var(--hero-image); /*Llamo a imagen declarada en article, style de HTML*/
+ background-repeat: no-repeat;
+ background-size: cover; /*Se adapta a la altura de manera proporcional del contenedor*/
+ background-position: center;
+ background-attachment: var(--hero-attachment); /*declarada en article, style de HTML. Fixed hace que quede fija y no scrollee*/
+}
+
+.hero-image-opacity { /*Opacidad modal*/
+ width: 100%; /*Adaptamos al tamaño de pantalla*/
+ min-height: 100vh; /*Adaptamos al tamaño de pantalla*/
+ display: flex; /*Centrado perfecto, ya que es unico hijo*/
+ justify-content: center; /*Centrado perfecto, ya que es unico hijo*/
+ align-items: center; /*Centrado perfecto, ya que es unico hijo*/
+ text-align: center;
+ background-color: var(--hero-opacity-color); /*Declarada en asside, style de HTML. Se oscurece hero image*/
+}
+
+.hero-image-title {
+ font-size: 7.5vw; /* 7.5 % Proporcional al tamaño del viewport, esto nos facilita no tener que andar creando medias queries*/
+ color: var(--hero-text-color); /*Declarada en h2, style de HTML. Cambia color texto*/
+}
+
+
+/******** Menu ******/
+.menu-btn {
+ outline: thin solid var(--first-color);
+ background-color: var(--second-color);
+ border:0;
+ cursor: pointer;
+}
+
+.menu-btn svg {
+ fill: var(--first-color); /*Usamos fill para darle color a los SVG*/
+}
+
+.menu {
+ position: fixed;
+ left: 0; /*De esta manera, posicionamos el menu a la izquierda*/
+ bottom: var(--header-height); /*Al ponerle bottom con la variable header height, hacemos que se posicione justo arriba de la cabecera inferior*/
+ width: 100%; /*recordemos que con fixed pierde propiedades de ancho y alto*/
+ display: flex; /*lo pasamos a forma vertical*/
+ flex-direction: column; /*lo pasamos a forma vertical*/
+ background-color: var(--second-color);
+ opacity: 0; /*lo voy a activar con javascript, pasando la opacidad a 1*/
+ pointer-events: none; /*quitamos interactividad*/
+ transition: opacity 0.5s ease;
+}
+
+.menu.is-active { /*Esto lo voy a activar con javascript*/
+ opacity: 1;
+ pointer-events: auto;
+}
+
+.menu a {
+ padding: 1rem;
+ font-size: 1.5rem;
+ font-weight: bold;
+ text-align: center;
+ text-decoration: none;
+ color: var(--first-color);
+}
+
+.menu a:hover {
+ color:var(--white-color);
+ background-color: var(--first-color);
+}
+
+@media screen and (min-width:1024px) {
+ .menu-btn {
+  display: none;
+ }
+
+ .menu {
+  position: static;
+  width: auto;
+  flex-direction: row;
+  opacity: 1;
+  pointer-events: auto;
+ }
+ 
+ .menu a {
+  padding: 0 1rem;
+ }
+
+ .menu a:last-child {
+  padding-right: 0;
+ }
+
+ .menu a:hover {
+  background-color: transparent;
+ }
+}
+
+/******** MODAL ******/
+.modal {
+ position: fixed;
+ z-index: 999;
+ top: 0;
+ right: 0;
+ bottom: 0;
+ left: 0;
+ display: flex;
+ justify-content: center;
+ align-items: center;
+ background-color: var(--black-alpha-color);
+ opacity: 0;
+ pointer-events: none;
+ transition: all 1s ;
+}
+
+.modal-content {
+ position: relative;
+}
+
+.modal-close {
+ position: absolute;
+ top: 1rem;
+ right: 1rem;
+}
+
+.modal-close svg {
+ width: 3rem;
+ height: 3rem;
+ fill: var(--first-color);
+}
+
+.modal[id|=trabajo]:target { /* Los estilos se aplican cuando el target de la pagina esté en este ID. Al utilizar el | le estoy diciendo que si empieza con "trabajo" aplique esto*/
+ opacity: 1;
+ pointer-events: auto;
+}
+
+
+/******** Progress Bar ******/
+progress {
+ width: 100%;
+ height: 1rem;
+ background-color: var(--gray-color);
+}
+
+
+progress::-webkit-progress-bar { /* PARA CHROME. Aclara gris de fondo de barras de %. Esta es una pseudoclase */
+ background-color: var(--gray-color);
+}
+
+progress::-webkit-progress-value { /* PARA CHROME. Gris oscuro de barras de % */
+ background-color: var(--gray-dark-color);
+}
+
+progress::-moz-progress-bar { /* PARA MOZILLA. Gris oscuro de barras de %. El value no lo necesita. */
+ background-color: var(--gray-dark-color);
+}
+
+.progress {
+ margin: 1rem auto;
+}
+
+.progress > p { /*p que esta directamente como hijo de la clase progress*/
+  margin: 0;
+  display: flex;
+  justify-content: space-between;
+  font-size: .85rem;
+}
+
+
+/********** Utilities ********/
+.avatar {
+ border-radius: 50%;
+ width: 150px; /*Para que la imagen se vea redonda debe tener proporción de cuadrado*/
+ height: 150px;
+}
+
+.bg-gray-light {
+ background-color: var(--gray-light-color);
+}
+
+.box-shadow-1 {
+ box-shadow: .25rem .25rem 1rem rgba(0, 0, 0, 0.25);
+}
+
+.btn {
+ border-radius: .5rem;
+ padding: 1rem;
+ display: inline-block;
+ width: 200px;
+ font-weight: bold;
+ text-align: center;
+ text-decoration: none;
+ color: var(--white-color);
+ background-color: var(--first-color);
+}
+
+.container {
+ margin-left: auto;
+ margin-right: auto;
+ max-width: var(--max-width);
+}
+
+.gray-scale {
+ filter: grayscale(1);
+}
+
+.none {
+ display: none;
+}
+
+.section {
+ padding: 2rem 1rem;
+}
+
+.section-title {
+ border-top: thin solid var(--first-color);
+ border-bottom: thin solid var(--first-color);
+ margin: 2rem auto;
+ padding: .5rem 1rem;
+ width: 250px;
+ text-align: center;
+ color: var(--title-color);
+}
+
+.text-first-color {
+ color: var(--first-color);
+}
+
+.text-center {
+ text-align: center;
+}
+
+.text-left {
+ text-align: left;
+}
+
+.text-right {
+ text-align: right;
+}
+
+@media screen and (min-width: 1024px){
+ .full-lg-screen {
+  width: 100%;
+  min-height: 100vh;
+ }
+
+ .text-lg-center {
+  text-align: center;
+ }
+ 
+ .text-lg-left {
+  text-align: left;
+ }
+ 
+ .text-lg-right {
+  text-align: right;
+ }
+}
+
+
+/********** Site Styles ********/
+.about > article {
+ margin-bottom: 2rem;
+}
+
+.contact-card {
+ margin: 1rem auto;
+ padding: 1rem;
+ width: 100%;
+ height: 144px; /* En figma está predefinida*/
+ display: flex;
+ flex-direction: column;
+ justify-content: space-around;
+ align-items: center;
+}
+
+.contact-card > svg {
+ width: 2rem;
+ height: 2rem;
+ fill: var(--first-color);
+}
+
+.contact-card > small {
+ margin-top: -1rem; /*Para que suban un poquito*/
+}
+
+.footer {
+ margin-bottom: var(--header-height);
+ padding: .5rem;
+ text-align: center;
+ color: var(--white-color);
+ background-color: var(--third-color);
+}
+
+.header {
+ position: fixed;
+ left: 0; /*Con left y bottom 0, alineo a la parte de abajo (es para mobile)*/
+ bottom: 0;
+ z-index: 999; /*En cuestion de profundidad, queremos que la cabecera siempre sea lo que se vea*/
+ padding: 1rem;
+ width: 100%; /* Tanto width como height se definen porque estamos trabajando con un elemento posicionado de manera fija, lo cual hace que pierda sus propiedades de ancho y alto*/
+height: calc(var(--header-height)); 
+background-color: var(--second-color);
+}
+
+.header > .container {/* > esto es el selector de hijo directo del header*/ 
+ display: flex;
+ justify-content: space-between;
+ align-items: center; /*Alineacion en vertical con respecto al centro, para el texto que dice jon mircha y el boton de hamburguesa*/
+}
+
+.logo a {
+ color: var(--first-color);
+ font-weight: bold;
+ font-size: 2rem; /*Si sumamos estos 2rem + 1rem de padding top + 1rem de padding bottom, nos da la altura que fue especificada en la variable header height. Si cambia la proporción, podemos luego cambiar variable */
+ text-decoration: none;
+}
+
+.portfolio-card{
+ position: relative; /* Para luego posicionar de forma absoluta lo que va en ventana modal */
+ width: 100%;
+ margin: 0 auto;
+ display: block; /* Para que los enlaces esten uno debajo del otro*/
+}
+
+.portfolio-card img {
+ width: 100%;
+ height: 100%;
+ object-fit: cover; /* Si las imagenes NO FUERAN CUADRADAS, esto nos ayuda a que no pierdan proporcion y se deformen*/
+}
+
+.portfolio-card-info {
+ position: absolute;
+ top: 0;
+ left: 0; /* Esto y top 0, posicionan sobre elemento padre*/
+ width: 100%;
+ height: 100%;
+ padding: 1rem;
+ background-color: var(--first-alpha-color);
+ color: var(--white-color);
+ opacity: 0; /* Activamos en hover*/
+ pointer-events: none; /* Activamos en hover*/
+ transition: all .5s ease-in-out;
+}
+
+.portfolio-card:hover .portfolio-card-info {
+ opacity: 1;
+ pointer-events: auto;
+}
+
+.portfolio-card-info > div {
+ padding: 1rem;
+ border: thin solid var(--white-color);
+ width: 100%;
+ height: 100%;
+}
+
+.portfolio-modal {
+ padding: 1rem;
+ max-width: 400px;
+ display: flex;
+ flex-direction: column; /* Lo ponemos para asegurarnos que la maquetación este en columna*/
+ background-color: var(--white-color);
+}
+
+.portfolio-modal h3 {
+ border-bottom: medium solid var(--first-color);
+ margin: 1rem auto;
+ padding: .5rem 0;
+ color: var(--title-color);
+}
+
+.portfolio-details {
+ display: grid;
+ grid-template-columns: 40% 60%;
+ grid-auto-rows: 2rem; /* Le doy valor por defecto a las filas*/
+}
+
+.portfolio-details b {
+ color: var(--first-color);
+}
+
+.service-card {
+ margin: 1rem auto;
+ padding: 1rem;
+ text-align: center;
+}
+
+.service-card h3 {
+ color: var(--title-color);
+}
+
+.service-card svg {
+ fill: var(--first-color);
+ margin-bottom: 1.25rem;
+}
+
+.social-media a {
+ padding: 0 0.4rem;
+ text-decoration: none;
+}
+
+.social-media svg {
+ width: 1.5rem;
+ height: 1.5rem;
+}
+
+
+@media screen and (min-width:768px) {
+ .contact-cards {
+  display: grid;
+  grid-template-columns: repeat(2, 48%);
+  justify-content: space-between;
+ }
+
+ .portfolio > .container {
+  display: grid;
+  grid-template-columns: repeat(2, 50%);
+ }
+
+ .portfolio .section-title {
+  grid-column: span 2; /*Desplazamiento de 2 celdas para que el titulo se acomode*/
+ }
+
+ .portfolio-modal {
+  flex-direction: row;
+  max-width: 800px; /* En movil tenia 400px, si no cambiamos esto, se rompe */
+ }
+
+ .portfolio-info {
+  margin-left: 1rem;
+  align-self: center; /* alínea verticalmente solo a este hijo*/
+ }
+
+ .services > .container {
+   display: grid;
+   grid-template-columns: repeat(2, 45%);
+   justify-content: space-between;
+   align-items: center;
+ }
+
+ .services .section-title {
+  grid-column: span 2; /*Desplazamiento de 2 celdas para que el titulo se acomode*/
+ }
+}
+
+@media screen and (min-width:1024px) {
+ .about {
+  display: grid;
+  grid-template-columns: repeat(3,30%); /* Nos sobra 10% que vamos a usar en justify content between */
+  justify-content: space-between;
+  align-content: center;
+ }
+
+ .contact-cards {
+  grid-template-columns: repeat(4, 24%);
+ }
+
+ .footer {
+  margin-bottom: 0;
+ }
+
+ .header {
+  position: sticky; /*Se va a comportar como elemento fijo cuando llegue a la altura que determinemos. A diferencia del fixed, no tapa el contenido*/
+  top: 0; /*Cuendo toque el margen top se va a volver fijo*/
+  padding: 0.5rem;
+  height: calc(var(--header-height) - .5rem);
+ }
+
+ .portfolio > .container {
+  grid-template-columns: repeat(3, 1fr); /* fr reparte proporcionalmente*/
+ }
+
+ .portfolio .section-title {
+  grid-column: span 3; /*Desplazamiento de 3 celdas para que el titulo se acomode*/
+ }
+
+ .services > .container {
+  grid-template-columns: repeat(3, 30%);
+ }
+
+.services .section-title {
+ grid-column: span 3; /*Desplazamiento de 3 celdas*/
+ }
+}
+
+
+
